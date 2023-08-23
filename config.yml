@@ -2,20 +2,46 @@ version: 1
 accounts:
 - name: alice
   coins:
-  - 20000token
-  - 200000000stake
+  - 200000000uvpns
 - name: bob
   coins:
-  - 10000token
-  - 100000000stake
-client:
-  openapi:
-    path: docs/static/openapi.yml
+  - 100000000uvpns
 faucet:
   name: bob
   coins:
-  - 5token
-  - 100000stake
+  - 100000uvpns
+client:
+  typescript:
+    path: ts-client
+  hooks:
+    path: react/src/hooks
+  openapi:
+    path: docs/static/openapi.yml
 validators:
 - name: alice
-  bonded: 100000000stake
+  bonded: 100000000uvpns
+genesis:
+  app_state:
+    bank:
+      denom_metadata:
+        - name: "VPNS"
+          description: "VPNS is a native coin of VPNSatoshi"
+          symbol: "VPNS"
+          base: "uvpns"
+          display: "vpns"
+          denom_units:
+            - denom: "uvpns"
+              exponent: 0
+            - denom: "vpns"
+              exponent: 6
+    staking:
+      params:
+        bond_denom: "uvpns"
+    mint:
+      params:
+        mint_denom: "uvpns"
+    gov:
+      deposit_params:
+        min_deposit:
+          - denom: "uvpns"
+            amount: "1000000"
