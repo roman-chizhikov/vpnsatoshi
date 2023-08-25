@@ -4,7 +4,7 @@
 ## Get started
 
 ```
-docker run -ti -v $HOME/sdh:/home/tendermint -v $PWD:/apps ignitehq/cli chain serve
+sh start.sh
 ```
 
 `serve` command installs dependencies, builds, initializes, and starts your blockchain in development.
