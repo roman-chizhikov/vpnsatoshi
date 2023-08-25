@@ -1,0 +1,27 @@
+version: "3.7"
+
+networks:
+  net-public: 
+
+services:
+  validator_1:
+    command: start --home /root/vpnsatoshi/.VPNSatoshi
+    container_name: validator_1
+    image: vpnsatoshi:latest
+    networks:
+      - net-public
+    volumes:
+      - $VALIDATOR_1_DIR:/root/vpnsatoshi
+
+  rpc_1:
+    command: start --home /root/vpnsatoshi/.VPNSatoshi
+    container_name: rpc_1
+    image: vpnsatoshi:latest
+    depends_on:
+      - validator_1
+    networks:
+      - net-public
+    volumes:
+      - $RPC_1_DIR:/root/vpnsatoshi
+    ports:
+      - 0.0.0.0:26657:26657
