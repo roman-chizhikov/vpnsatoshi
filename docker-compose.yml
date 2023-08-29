@@ -5,23 +5,29 @@ networks:
 
 services:
   validator_1:
-    command: start --home /root/vpnsatoshi/.VPNSatoshi
+    command: start
     container_name: validator_1
-    image: vpnsatoshi:latest
+    build: ./
+    environment:
+      - NODE_NAME=validator_1
     networks:
       - net-public
     volumes:
-      - $VALIDATOR_1_DIR:/root/vpnsatoshi
+      - ~/vpnsatoshi/validator_1:/root/vpnsatoshi
 
   rpc_1:
-    command: start --home /root/vpnsatoshi/.VPNSatoshi
+    command: start
     container_name: rpc_1
-    image: vpnsatoshi:latest
+    build: ./
+    environment:
+      - NODE_NAME=rpc_1
+      - RPC_URL=validator_1:26657
+      - P2P_URL=validator_1:26656
     depends_on:
       - validator_1
     networks:
       - net-public
     volumes:
-      - $RPC_1_DIR:/root/vpnsatoshi
+      - ~/vpnsatoshi/rpc_1:/root/vpnsatoshi
     ports:
       - 0.0.0.0:26657:26657

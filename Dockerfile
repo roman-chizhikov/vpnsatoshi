@@ -10,6 +10,10 @@ RUN go build -o ./build/vpnsatoshid ./cmd/VPNSatoshid/main.go
 
 FROM --platform=linux alpine
 
-COPY --from=builder /root/vpnsatoshi/build/vpnsatoshid /usr/local/bin/vpnsatoshid
+RUN apk add --update --no-cache curl jq
 
-ENTRYPOINT ["/usr/local/bin/vpnsatoshid"]
+COPY --from=builder /root/vpnsatoshi/build/vpnsatoshid /usr/local/bin/vpnsatoshid
+COPY ./configAndRun.sh /usr/local/bin/configAndRun.sh
+COPY ./genesis /usr/local/genesis
+
+ENTRYPOINT ["/usr/local/bin/configAndRun.sh"]
